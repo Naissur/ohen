@@ -2,7 +2,7 @@
   (:require  [clojure.data.json :as json])
   (:gen-class))
 
-(defonce data (atom nil))
+(defonce data (atom "Sample data!"))
 
 (defn get-data []
   (deref data))

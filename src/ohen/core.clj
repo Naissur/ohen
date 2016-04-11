@@ -4,8 +4,9 @@
     [ohen.data :as data]
     [ohen.log :refer [log]]
     [ring.middleware.params :refer [wrap-params]]  
-    [ring.adapter.jetty :as jetty]  
-    [ring.util.response :as response]))
+    [ring.adapter.jetty :as jetty]))
+
+(require '[ring.middleware.json :refer  [wrap-json-body wrap-json-params wrap-json-response]])
 
 ;; View functions
 (defn index []
@@ -21,8 +22,9 @@
     {:status 200 :headers  {"Content-Type" "application/json"} :body (data/get-data)}))
 
 (defn data-post [req]
-  (let [params (:params req)]
-    (data/set-data params)
+  (let [body (:body req)]
+    (data/set-data body)
+    (log body)
     {:status 200 :headers  {"Content-Type" "application/json"} :body (data/get-data)}))
 
 ;; Routing
@@ -32,7 +34,8 @@
   (GET "/data" [] data-get)
   (POST "/data" [] data-post))
 
-(def handler (wrap-params  main-routes))
+(def handler (wrap-json-response (wrap-json-body main-routes)))
+
 
 ; (defonce server  (jetty/run-jetty main-routes {:port 3000 :join? false}))  
 

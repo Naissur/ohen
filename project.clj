@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]  
                  [org.clojure/data.json "0.2.6"]
                  [ring "1.4.0"]
+                 [ring/ring-json "0.4.0"]
                  [compojure "1.5.0"] ]
   :main ohen.core
   :ring { :handler ohen.core/handler })
